@@ -1,28 +1,28 @@
-# Professional Login Page
+# Northstar Workspace Landing Page
 
-A modern, professional login page built with HTML, CSS, and JavaScript. Includes a responsive dual-panel design with hero content on the left and login form on the right.
+A polished, responsive landing page and sign-in experience built with HTML, CSS, and JavaScript. The site combines a premium hero section, product highlights, and an interactive client portal login panel.
 
 ## 📋 Features
 
 ✨ **Modern Design**
-- Professional dual-panel layout
-- Responsive design (desktop, tablet, mobile)
-- Smooth animations and transitions
-- Golden gradient accents
+- Premium editorial-style hero layout
+- Responsive glassmorphism-inspired interface
+- Warm branded color system and layered backgrounds
+- Smooth transitions and lightweight motion
 
-🔐 **User Authentication**
+🔐 **Portal Experience**
 - Email and password input fields
 - Password visibility toggle
 - Role selection dropdown
-- Remember me checkbox
-- Password recovery link
+- Remember me preference
+- Password recovery and invite request flows
 
 🎨 **Interactive Elements**
-- Social login buttons (Google, Facebook, LinkedIn)
-- Form validation
-- Success/error notifications
+- Social sign-in buttons
+- Client-side form validation
+- Success, error, and info toast notifications
 - Loading state on submit
-- Keyboard shortcuts support
+- Keyboard shortcut support
 
 ♿ **Accessibility**
 - WCAG compliant
@@ -80,7 +80,7 @@ https://shrutiawasthi31.github.io/my-page/
 
 | File | Purpose |
 |------|---------|
-| `index.html` | HTML structure & markup |
+| `index.html` | Landing page and login markup |
 | `styles.css` | Styling & responsive design |
 | `script.js` | Form functionality & interactions |
 | `.github/workflows/ci.yml` | CI/CD pipeline configuration |
@@ -111,10 +111,10 @@ Edit `.root` variables in `styles.css`:
 ```
 
 ### Update Branding
-- Change app name in `.hero-title` (index.html)
-- Modify features list in `.features` section
-- Update social login links
-- Change redirect URLs in script.js
+- Change the product name and copy in `index.html`
+- Edit colors in `:root` inside `styles.css`
+- Replace placeholder social actions in `script.js`
+- Connect the form submit flow to your real backend or dashboard
 
 ## 🌐 Browser Support
 
@@ -138,10 +138,10 @@ Edit `.root` variables in `styles.css`:
 
 ## 📊 Performance
 
-- **Load Time**: < 1 second
+- **Load Time**: Fast static delivery
 - **Dependencies**: Zero frameworks
-- **Bundle Size**: ~45 KB (all files)
-- **Lighthouse Score**: 100/100
+- **Bundle Size**: Lightweight static assets only
+- **Deployment**: Works well with GitHub Pages
 
 ## 🔒 Security Notes
 
@@ -192,5 +192,5 @@ Created with ❤️ by [Shruti Awasthi](https://github.com/shrutiawasthi31)
 
 ---
 
-**Last Updated:** 2026-06-08  
-**Version:** 1.0.0
+**Last Updated:** 2026-06-11  
+**Version:** 2.0.0

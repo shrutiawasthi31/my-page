@@ -1,238 +1,177 @@
-// Password Toggle Functionality
-const togglePasswordBtn = document.getElementById('togglePassword');
-const passwordInput = document.getElementById('password');
+const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const roleSelect = document.getElementById("role");
+const rememberMeCheckbox = document.getElementById("rememberMe");
+const togglePasswordButton = document.getElementById("togglePassword");
+const loginButton = loginForm?.querySelector(".login-btn");
+const buttonLabel = loginButton?.querySelector(".btn-label");
+const forgotPasswordLink = document.querySelector(".forgot-password");
+const signUpLink = document.querySelector(".signup-link a");
+const notificationRegion = document.getElementById("notificationRegion");
+const socialButtons = document.querySelectorAll(".social-btn");
 
-if (togglePasswordBtn) {
-    togglePasswordBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const type = passwordInput.type === 'password' ? 'text' : 'password';
-        passwordInput.type = type;
-        togglePasswordBtn.classList.toggle('active');
-    });
-}
+const STORAGE_KEYS = {
+    email: "northstar-user-email",
+    role: "northstar-user-role"
+};
 
-// Form Submission
-const loginForm = document.getElementById('loginForm');
+restoreSavedSession();
+bindEvents();
 
-if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const role = document.getElementById('role').value;
-        const rememberMe = document.getElementById('rememberMe').checked;
-
-        // Validate form
-        if (!email || !password || !role) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-
-        // Simulate login process
-        const loginBtn = loginForm.querySelector('.login-btn');
-        const originalText = loginBtn.textContent;
-        loginBtn.textContent = 'Logging in...';
-        loginBtn.disabled = true;
-
-        // Simulate API call
-        setTimeout(() => {
-            // Store user data in localStorage if "Remember Me" is checked
-            if (rememberMe) {
-                localStorage.setItem('userEmail', email);
-                localStorage.setItem('userRole', role);
-            }
-
-            // Show success message
-            showNotification('Login successful!', 'success');
-            
-            // Simulate redirect after 1.5 seconds
-            setTimeout(() => {
-                // You can redirect to dashboard or home page
-                window.location.href = '#'; // Change this to your dashboard URL
-            }, 1500);
-        }, 1500);
-    });
-
-    // Restore email if "Remember Me" was previously checked
-    window.addEventListener('load', () => {
-        const savedEmail = localStorage.getItem('userEmail');
-        const savedRole = localStorage.getItem('userRole');
-        
-        if (savedEmail) {
-            document.getElementById('email').value = savedEmail;
-            document.getElementById('rememberMe').checked = true;
-        }
-        
-        if (savedRole) {
-            document.getElementById('role').value = savedRole;
-        }
-    });
-}
-
-// Forgot Password Link
-const forgotPasswordLink = document.querySelector('.forgot-password');
-if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        showNotification('Password reset link has been sent to your email', 'info');
-    });
-}
-
-// Social Login Buttons
-const socialButtons = document.querySelectorAll('.social-btn');
-socialButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const provider = btn.classList.contains('google-btn') 
-            ? 'Google' 
-            : btn.classList.contains('facebook-btn') 
-            ? 'Facebook' 
-            : 'LinkedIn';
-        showNotification(`Redirecting to ${provider}...`, 'info');
-        // Implement actual OAuth redirect here
-    });
-});
-
-// Sign Up Link
-const signUpLink = document.querySelector('.signup-link a');
-if (signUpLink) {
-    signUpLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = '#signup'; // Change to your signup page
-    });
-}
-
-// Notification System
-function showNotification(message, type = 'info') {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    
-    // Add styles dynamically if not already in CSS
-    if (!document.getElementById('notificationStyles')) {
-        const style = document.createElement('style');
-        style.id = 'notificationStyles';
-        style.textContent = `
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 16px 24px;
-                border-radius: 8px;
-                font-size: 0.95rem;
-                font-weight: 500;
-                z-index: 9999;
-                animation: slideInRight 0.3s ease-out;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            .notification-success {
-                background-color: #28a745;
-                color: white;
-            }
-
-            .notification-error {
-                background-color: #dc3545;
-                color: white;
-            }
-
-            .notification-info {
-                background-color: #17a2b8;
-                color: white;
-            }
-
-            @keyframes slideInRight {
-                from {
-                    opacity: 0;
-                    transform: translateX(100px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-            }
-
-            @keyframes slideOutRight {
-                from {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateX(100px);
-                }
-            }
-
-            @media (max-width: 640px) {
-                .notification {
-                    top: 10px;
-                    right: 10px;
-                    left: 10px;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+function bindEvents() {
+    if (togglePasswordButton && passwordInput) {
+        togglePasswordButton.addEventListener("click", togglePasswordVisibility);
     }
 
-    document.body.appendChild(notification);
+    if (loginForm) {
+        loginForm.addEventListener("submit", handleLoginSubmit);
+    }
 
-    // Remove notification after 4 seconds
-    setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 4000);
-}
+    if (emailInput) {
+        emailInput.addEventListener("blur", () => validateField(emailInput));
+        emailInput.addEventListener("input", () => clearFieldState(emailInput));
+    }
 
-// Input validation feedback
-const emailInput = document.getElementById('email');
-const passwordInput2 = document.getElementById('password');
-const roleSelect = document.getElementById('role');
+    if (passwordInput) {
+        passwordInput.addEventListener("blur", () => validateField(passwordInput));
+        passwordInput.addEventListener("input", () => clearFieldState(passwordInput));
+    }
 
-if (emailInput) {
-    emailInput.addEventListener('blur', () => {
-        if (emailInput.value && !isValidEmail(emailInput.value)) {
-            emailInput.classList.add('error');
-        } else {
-            emailInput.classList.remove('error');
+    if (roleSelect) {
+        roleSelect.addEventListener("change", () => validateField(roleSelect));
+    }
+
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            showNotification("Password reset instructions would be sent to your workspace email.", "info");
+        });
+    }
+
+    if (signUpLink) {
+        signUpLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            showNotification("Invitation requests usually route through your workspace administrator.", "info");
+        });
+    }
+
+    socialButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const provider = button.textContent.trim();
+            showNotification(`OAuth flow for ${provider} would start here.`, "info");
+        });
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.altKey && event.key.toLowerCase() === "l") {
+            loginButton?.focus();
         }
     });
 }
 
-if (passwordInput2) {
-    passwordInput2.addEventListener('input', () => {
-        if (passwordInput2.value) {
-            passwordInput2.classList.remove('error');
-        }
-    });
+function togglePasswordVisibility() {
+    const reveal = passwordInput.type === "password";
+    passwordInput.type = reveal ? "text" : "password";
+    togglePasswordButton.setAttribute("aria-pressed", String(reveal));
+    togglePasswordButton.setAttribute("aria-label", reveal ? "Hide password" : "Show password");
 }
 
-// Email validation
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+function handleLoginSubmit(event) {
+    event.preventDefault();
+
+    const fields = [emailInput, passwordInput, roleSelect];
+    const allValid = fields.every((field) => validateField(field));
+
+    if (!allValid) {
+        showNotification("Please complete every field with valid details.", "error");
+        return;
+    }
+
+    setLoadingState(true);
+
+    window.setTimeout(() => {
+        persistSessionPreference();
+        setLoadingState(false);
+        showNotification(`Welcome back${emailInput.value ? `, ${emailInput.value}` : ""}.`, "success");
+        loginForm.reset();
+        roleSelect.value = rememberMeCheckbox.checked ? roleSelect.value : "";
+        restoreSavedSession();
+    }, 1300);
 }
 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    // Alt + L to focus login button
-    if (e.altKey && e.key === 'l') {
-        const loginBtn = loginForm?.querySelector('.login-btn');
-        if (loginBtn) loginBtn.focus();
+function validateField(field) {
+    if (!field) {
+        return false;
     }
-    
-    // Enter on form to submit
-    if (e.key === 'Enter' && loginForm && document.activeElement !== loginForm.querySelector('.login-btn')) {
-        if (document.activeElement === emailInput || 
-            document.activeElement === passwordInput2 || 
-            document.activeElement === roleSelect) {
-            loginForm.dispatchEvent(new Event('submit'));
-        }
-    }
-});
 
-// Console log for debugging
-console.log('Login page initialized successfully');
+    const value = field.value.trim();
+    let isValid = Boolean(value);
+
+    if (field === emailInput && value) {
+        isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    clearFieldState(field);
+    field.classList.add(isValid ? "success" : "error");
+    return isValid;
+}
+
+function clearFieldState(field) {
+    field.classList.remove("error", "success");
+}
+
+function persistSessionPreference() {
+    if (!rememberMeCheckbox?.checked) {
+        localStorage.removeItem(STORAGE_KEYS.email);
+        localStorage.removeItem(STORAGE_KEYS.role);
+        return;
+    }
+
+    localStorage.setItem(STORAGE_KEYS.email, emailInput.value.trim());
+    localStorage.setItem(STORAGE_KEYS.role, roleSelect.value);
+}
+
+function restoreSavedSession() {
+    if (!emailInput || !roleSelect || !rememberMeCheckbox) {
+        return;
+    }
+
+    const savedEmail = localStorage.getItem(STORAGE_KEYS.email);
+    const savedRole = localStorage.getItem(STORAGE_KEYS.role);
+
+    if (savedEmail) {
+        emailInput.value = savedEmail;
+        rememberMeCheckbox.checked = true;
+    }
+
+    if (savedRole) {
+        roleSelect.value = savedRole;
+    }
+}
+
+function setLoadingState(isLoading) {
+    if (!loginButton || !buttonLabel) {
+        return;
+    }
+
+    loginButton.disabled = isLoading;
+    buttonLabel.textContent = isLoading ? "Signing you in..." : "Enter workspace";
+}
+
+function showNotification(message, type = "info") {
+    if (!notificationRegion) {
+        return;
+    }
+
+    const toast = document.createElement("div");
+    toast.className = `notification notification-${type}`;
+    toast.textContent = message;
+    notificationRegion.appendChild(toast);
+
+    window.setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-6px)";
+        window.setTimeout(() => toast.remove(), 200);
+    }, 3200);
+}

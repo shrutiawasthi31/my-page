@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northstar Workspace | Secure Client Portal</title>
+    <meta
+        name="description"
+        content="A polished client portal landing page with secure sign in, product highlights, and responsive interactions."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand-lockup" href="#home" aria-label="Northstar Workspace home">
+                <span class="brand-mark">N</span>
+                <span class="brand-copy">
+                    <strong>Northstar</strong>
+                    <span>Workspace Portal</span>
+                </span>
+            </a>
+            <nav class="topnav" aria-label="Primary">
+                <a href="#features">Features</a>
+                <a href="#insights">Insights</a>
+                <a href="#signin">Sign in</a>
+            </nav>
+        </header>
+
+        <main class="hero-grid" id="home">
+            <section class="story-panel" aria-labelledby="hero-title">
+                <p class="eyebrow">Built for modern teams</p>
+                <h1 id="hero-title">A sharper welcome page for the people who keep your work moving.</h1>
+                <p class="hero-copy">
+                    Manage projects, approvals, and updates in one place with a client portal that feels calm,
+                    trustworthy, and premium from the first click.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="primary-cta" href="#signin">Access portal</a>
+                    <a class="secondary-cta" href="#features">Explore features</a>
+                </div>
+
+                <ul class="stat-strip" aria-label="Portal highlights">
+                    <li>
+                        <strong>98%</strong>
+                        <span>task visibility across teams</span>
+                    </li>
+                    <li>
+                        <strong>24/7</strong>
+                        <span>secure access on every device</span>
+                    </li>
+                    <li>
+                        <strong>3x</strong>
+                        <span>faster approval cycles</span>
+                    </li>
+                </ul>
+
+                <section class="insight-card" id="insights" aria-label="Client update">
+                    <div>
+                        <p class="insight-label">This week’s pulse</p>
+                        <h2>Everything your clients expect, without the clutter.</h2>
+                    </div>
+                    <div class="insight-metrics">
+                        <article>
+                            <span>Live projects</span>
+                            <strong>14</strong>
+                        </article>
+                        <article>
+                            <span>Pending reviews</span>
+                            <strong>06</strong>
+                        </article>
+                        <article>
+                            <span>New messages</span>
+                            <strong>29</strong>
+                        </article>
+                    </div>
+                </section>
+            </section>
+
+            <aside class="signin-panel" id="signin">
+                <div class="panel-glow" aria-hidden="true"></div>
+                <div class="login-container">
+                    <div class="login-header">
+                        <p class="eyebrow">Secure sign in</p>
+                        <h2>Welcome back</h2>
+                        <p>Use your workspace credentials to enter the client portal.</p>
+                    </div>
+
+                    <form class="login-form" id="loginForm" novalidate>
+                        <div class="form-group">
+                            <label for="email">Work email</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M4 6.5h16v11H4z" stroke="currentColor"></path>
+                                    <path d="m4 7 8 6 8-6" stroke="currentColor"></path>
+                                </svg>
+                                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+                            </div>
+                            <small class="field-hint">Use the address linked to your workspace.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor"></rect>
+                                    <path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="currentColor"></path>
+                                </svg>
+                                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                                <button class="toggle-password" id="togglePassword" type="button" aria-label="Show password" aria-pressed="false">
+                                    <svg class="eye-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" stroke="currentColor"></path>
+                                        <circle cx="12" cy="12" r="3" stroke="currentColor"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <div class="input-wrapper select-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke="currentColor"></path>
+                                    <path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor"></path>
+                                </svg>
+                                <select id="role" name="role" required>
+                                    <option value="">Choose your role</option>
+                                    <option value="client">Client</option>
+                                    <option value="manager">Project manager</option>
+                                    <option value="team">Internal team</option>
+                                    <option value="admin">Administrator</option>
+                                </select>
+                                <svg class="select-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="m7 10 5 5 5-5" stroke="currentColor"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="form-footer">
+                            <label class="checkbox" for="rememberMe">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <span>Remember this device</span>
+                            </label>
+                            <a class="forgot-password" href="#reset">Forgot password?</a>
+                        </div>
+
+                        <button class="login-btn" type="submit">
+                            <span class="btn-label">Enter workspace</span>
+                        </button>
+
+                        <div class="divider" aria-hidden="true">or continue with</div>
+
+                        <div class="social-login" aria-label="Social sign in options">
+                            <button class="social-btn google-btn" type="button" aria-label="Continue with Google">
+                                <span>G</span>
+                            </button>
+                            <button class="social-btn linkedin-btn" type="button" aria-label="Continue with LinkedIn">
+                                <span>in</span>
+                            </button>
+                            <button class="social-btn microsoft-btn" type="button" aria-label="Continue with Microsoft">
+                                <span>MS</span>
+                            </button>
+                        </div>
+
+                        <p class="signup-link">Need access? <a href="#contact">Request an invitation</a></p>
+                    </form>
+                </div>
+            </aside>
+        </main>
+
+        <section class="feature-band" id="features" aria-label="Feature highlights">
+            <article class="feature-card">
+                <p>Unified dashboards</p>
+                <h3>Track milestones, files, and messages in one focused view.</h3>
+            </article>
+            <article class="feature-card">
+                <p>Role-based access</p>
+                <h3>Give clients, managers, and teams the exact level of visibility they need.</h3>
+            </article>
+            <article class="feature-card">
+                <p>Fast approvals</p>
+                <h3>Keep decisions moving with alerts, reminders, and clean review loops.</h3>
+            </article>
+        </section>
+    </div>
+
+    <div class="notification-region" id="notificationRegion" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+</body>
+</html>
